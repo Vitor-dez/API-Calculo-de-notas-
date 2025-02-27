@@ -1,37 +1,21 @@
-# API-Calculo-de-notas-
+# API-Estacionamento
 Calculo
 ```mermaid
-classDiagram
-    class Usuario {
-        +Long id
-        +String nome
-        +String email
-        +String senha
-    }
+graph TD;
+    A[Entrada do Veículo] -->|Informa Placa| B[Registrar Entrada]
+    B -->|Salva horário de entrada| C[Lista de Veículos Estacionados]
+    C -->|Exibir veículos estacionados| D[Usuário Solicita Saída]
+    D -->|Informa Placa| E[Calcular Tempo Estacionado]
+    E -->|Calcular Valor a Pagar| F[Exibir Valor ao Usuário]
+    F -->|Pagamento Confirmado| G[Remover Veículo da Lista]
+    G -->|Atualizar Banco de Dados| H[Registro de Saída]
 
-    class Nota {
-        +Long id
-        +Double valor
-    }
+    subgraph Banco de Dados
+        I[Registro de Entrada]
+        J[Registro de Saída]
+    end
 
-    class UsuarioRepository {
-        <<interface>>
-    }
+    B --> I
+    G --> J
 
-    class NotaRepository {
-        <<interface>>
-        +List<Nota> findByUsuario(Usuario usuario)
-    }
-
-    class NotaController {
-        +Nota adicionarNota(Long usuarioId, Double valor)
-        +List<Usuario> listarAprovados()
-        +List<Usuario> listarReprovados()
-    }
-
-    Usuario "1" --> "many" Nota : possui
-    UsuarioRepository --> Usuario
-    NotaRepository --> Nota
-    NotaController --> NotaRepository
-    NotaController --> UsuarioRepository
 ```
